@@ -44,5 +44,6 @@ For the zabbix agent to work correctly we need to allow port 10050 on the XenSer
 
 ## Configure template
 * Create xenserver user with read-only role (tested with active directory user)
+* Copy the xenserver folder and userparameter_xenserver.conf inside **/etc/zabbix/zabbix_agentd.conf**
 * Edit the file zabbix_agentd.d/xenserver/xen_passwd
-* Import template on Zabbix server (tested on zabbix 4.4)
+* Import template (**xenserver_template.xml**) on Zabbix server (tested on zabbix 4.4)
