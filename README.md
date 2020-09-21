@@ -1,5 +1,6 @@
 # Zabbix Xenserver
-Monitor Xenserver Master
+This templates Monitoring Xenserver disks HBA and Memory from all nodes. 
+The agent is setup on xenserver master.
 
 ## Install Zabbix Agent on Xenserver
 
