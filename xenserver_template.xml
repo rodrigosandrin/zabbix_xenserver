@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-09-21T15:27:35Z</date>
+    <date>2020-09-30T22:11:08Z</date>
     <groups>
         <group>
             <name>Templates/Virtualization</name>
@@ -22,6 +22,9 @@
                 </application>
                 <application>
                     <name>XenServer Memory</name>
+                </application>
+                <application>
+                    <name>XenServer Network</name>
                 </application>
             </applications>
             <discovery_rules>
@@ -100,6 +103,95 @@
                             </preprocessing>
                             <master_item>
                                 <key>XenServer.XenHost.json[{#XENHOST}]</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>XenServer Discovery Network</name>
+                    <key>xennetwork.discovery</key>
+                    <delay>3600</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>XenServer  [{#XENHOSTNAME} - {#XENHOSTNICNAME} ]</name>
+                            <key>XenServer.XenNetwork.json[{#XENHOSTNIC}]</key>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>XenServer Network</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>XenServer [{#XENHOSTNAME} - {#XENHOSTNICNAME} ] Link Status</name>
+                            <type>DEPENDENT</type>
+                            <key>XenServer.XenNetwork.linkstatus[{#XENHOSTNIC}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>XenServer Network</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.data.XENNETWORKSTATE</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>XenServer.XenNetwork.json[{#XENHOSTNIC}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{iregexp(true)}=0</expression>
+                                    <name>XenServer [{#XENHOSTNAME} - {#XENHOSTNICNAME} ] Link Status is Down</name>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>XenServer [{#XENHOSTNAME} - {#XENHOSTNICNAME} ] Network Duplex</name>
+                            <type>DEPENDENT</type>
+                            <key>XenServer.XenNetwork.networkduplex[{#XENHOSTNIC}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>XenServer Network</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.data.XENNETWORKDUPLEX</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>XenServer.XenNetwork.json[{#XENHOSTNIC}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>XenServer [{#XENHOSTNAME} - {#XENHOSTNICNAME} ] Network Speed (Mbps)</name>
+                            <type>DEPENDENT</type>
+                            <key>XenServer.XenNetwork.networkspeed[{#XENHOSTNIC}]</key>
+                            <delay>0</delay>
+                            <applications>
+                                <application>
+                                    <name>XenServer Network</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.data.XENNETWORKSPEED</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>XenServer.XenNetwork.json[{#XENHOSTNIC}]</key>
                             </master_item>
                         </item_prototype>
                     </item_prototypes>
